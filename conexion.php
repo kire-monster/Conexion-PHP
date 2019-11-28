@@ -1,6 +1,6 @@
 <?php 
 /**
- * @version 1.0.3
+ * @version 1.0.4
  */
 class Registros
 {
@@ -55,14 +55,15 @@ class Conexion
 		switch ($this->MDB) 
 		{
 			case 'MySQL':
-				$this->Con = @mysqli_connect("localhost","root","",$this->DBName,3307);
+				//@mysqli_connect(servidor, usuario, contraseña, nombre_bd , puerto)
+				$this->Con = @mysqli_connect("localhost","root","******",$this->DBName,3306);
 				break;
 			case 'PgSQL':
 				$this->DBName = $this->DBName!=""? " dbname=" . $this->DBName: null;
-				$this->Con = @pg_connect("host=localhost user=postgres password=12345uno".$this->DBName); 
+				$this->Con = @pg_connect("host=localhost user=postgres password=*******".$this->DBName); 
 				break;
 			case 'ODBC':
-				#odbc_connect(dsn,user,pass);
+				//odbc_connect(dsn,user,pass);
 				$this->Con = @odbc_connect("DRIVER={Microsoft Access Driver (*.mdb)};DBQ={$this->DBName};",'','');
 				break;
 			#default:break;
