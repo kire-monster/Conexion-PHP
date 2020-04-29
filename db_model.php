@@ -42,9 +42,9 @@ class DB_Model
 				$this->Con = @odbc_connect("DRIVER={Microsoft Access Driver (*.mdb)};DBQ={$this->DBName};",'','');
 				break;
 			case 'MSSQL':
-				$this->Con = @odbc_connect("Driver={SQL Server}; Server=10.51.241.62; charset=UTF-8;",
-					'usrMonitoreoSOS',
-					'usrMonitoreoSOS201705');
+				$this->Con = @odbc_connect("Driver={SQL Server}; Server=127.0.0.1; charset=UTF-8;",
+					'uruario',
+					'contraseña');
 				break;
 			default:break;
 		}
