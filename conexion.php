@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @version 1.0.4
  */
@@ -16,7 +16,7 @@ class Registros
 
 	public function Fetch()
 	{
-		switch ($this->MDB) 
+		switch ($this->MDB)
 		{
 			case 'MySQL':
 				$this->Registro = @mysqli_fetch_array($this->Query);
@@ -27,7 +27,10 @@ class Registros
 			case 'ODBC':
 				$this->Registro = @odbc_fetch_array($this->Query);
 				break;
-			#default:break;
+			case 'SQLSRV':
+					$this->Registro = @sqlsrv_fetch_array($this->Query, SQLSRV_FETCH_ASSOC);
+					break;
+			default:break;
 		}
 
 		if($this->Registro){return true;}
@@ -52,23 +55,31 @@ class Conexion
 
 	private function Connect()
 	{
-		switch ($this->MDB) 
+		switch ($this->MDB)
 		{
 			case 'MySQL':
 				//@mysqli_connect(servidor, usuario, contraseña, nombre_bd , puerto)
-				$this->Con = @mysqli_connect("localhost","root","******",$this->DBName,3306);
+				$this->Con = @mysqli_connect("localhost","test","test01",$this->DBName,3306);
 				break;
 			case 'PgSQL':
 				$this->DBName = $this->DBName!=""? " dbname=" . $this->DBName: null;
-				$this->Con = @pg_connect("host=localhost user=postgres password=*******".$this->DBName); 
+				$this->Con = @pg_connect("host=localhost user=postgres password=test01".$this->DBName);
 				break;
 			case 'ODBC':
 				//odbc_connect(dsn,user,pass);
 				$this->Con = @odbc_connect("DRIVER={Microsoft Access Driver (*.mdb)};DBQ={$this->DBName};",'','');
 				break;
-			#default:break;
+			case 'SQLSRV':
+				$paramentros = array(
+					'UID'=> 'test',
+					'PWD'=> 'test01',
+					'CharacterSet' => 'UTF-8'
+				);
+				$this->Con = @sqlsrv_connect("127.0.0.1", $paramentros);
+				break;
+			default:break;
 		}
-		
+
 		if ($this->Con){ return true; }
 		else { return false; }
 	}
@@ -77,7 +88,7 @@ class Conexion
 	{
 		$data;
 		if(!$this->Con){ return; }
-		switch ($this->MDB) 
+		switch ($this->MDB)
 		{
 			case 'MySQL':
 				$data = @mysqli_query($this->Con, $var);
@@ -94,7 +105,12 @@ class Conexion
 				$this->Error = @odbc_errormsg($this->Con);
 				$this->Numero = @odbc_num_rows($data);
 				break;
-			#default:break;
+			case 'SQLSRV':
+				$data = @sqlsrv_query($this->Con, $var);
+				$this->Error = @sqlsrv_errors();
+				$this->Numero = @sqlsrv_num_rows($data);
+				break;
+			default:break;
 		}
 
 		$Reg = new Registros();
@@ -109,4 +125,3 @@ class Conexion
 		}
 	}
 }
-?>
