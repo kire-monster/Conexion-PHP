@@ -8,15 +8,15 @@ namespace Models;
 
 class DB_Model
 {
-	protected $Con;
+	public $Con;
 	private $Query;
-	protected $Reg;
+	public $Reg;
 
 	private $MDB;
 	private $DBName;
 
-	protected $ErrorDB;
-	protected $NumRows=0;
+	public $ErrorDB;
+	public $NumRows=0;
 	
 	function __construct($var1='MySQL',$var2='')
 	{
@@ -50,7 +50,7 @@ class DB_Model
 		}
 	}
 
-	protected function Exec($sql)
+	public function Exec($sql)
 	{
 		if(!$this->Con){ return; }
 		switch ($this->MDB) 
@@ -78,7 +78,7 @@ class DB_Model
 		else{return false;}
 	}
 
-	protected function Fetch()
+	public function Fetch()
 	{
 		switch ($this->MDB) 
 		{
