@@ -1,12 +1,12 @@
 <?php 
-namespace Models;
+namespace DB_Class;
 
 /**
  * @version 1.0.7
  * @author Erik Carrillo
  */
 
-class DB_Model
+class SqlConnection
 {
 	public $Con;
 	private $Query;
