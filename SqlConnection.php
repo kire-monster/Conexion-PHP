@@ -99,5 +99,3 @@ class SqlConnection
 		else{return false;}
 	}
 }
-
-?>
