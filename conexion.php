@@ -60,6 +60,7 @@ class Conexion
 			case 'MySQL':
 				//@mysqli_connect(servidor, usuario, contraseña, nombre_bd , puerto)
 				$this->Con = @mysqli_connect("localhost","test","test01",$this->DBName,3306);
+				@mysqli_set_charset($this->Con, 'utf8');
 				break;
 			case 'PgSQL':
 				$this->DBName = $this->DBName!=""? " dbname=" . $this->DBName: null;
